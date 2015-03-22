@@ -16,11 +16,14 @@ function parse_sip_response (response) {
   }
 
   function parse_info (info) {
-    return string_ops.split(info,',');
+    if ( info.indexOf(',') >= 0 ) {
+      return info.split(',');
+    } else {
+      return info;
+    }
   }
 
   function parse_sip_line (line) {
-    line = line.substring(0,line.length-1);
     var space = line.indexOf(' ');
     var name = line.substring(0,space);
     var info = line.substring(space+1);
@@ -33,10 +36,10 @@ function parse_sip_response (response) {
     }
   }
 
-  var response_by_line = string_ops.split(response,'\n');
+  var response_by_line = response.split('\n');
   var response_hash = {};
   response_by_line.forEach( function (line) {
-    parse_sip_line(line);
+    parse_sip_line(line.trim());
   });
   module.exports.emit(response_hash['MessageType'],response_hash);
 }
