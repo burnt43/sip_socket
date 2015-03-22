@@ -23,25 +23,17 @@ sip_socket.on('ready', function () {
     'CSeq: 60591 REGISTER\n' +
     'Contact: "unknown" <sip:' + sip_user_name + '@' + sip_socket.source_host + '>;expires=300\n' +
     'Authorization: Digest username="' + sip_user_name + '", realm="asterisk", nonce="6fe6b930", uri="sip:' + sip_socket.destination_host + '", response="102cdef93746278a24031cffbcf6618b", algorithm=MD5\n' +
-    'Allow: ACK\n' +
-    'Allow: BYE\n' +
-    'Allow: CANCEL\n' +
-    'Allow: INFO\n' +
-    'Allow: INVITE\n' +
-    'Allow: NOTIFY\n' +
-    'Allow: OPTIONS\n' +
-    'Allow: REFER\n' +
-    'Allow: UPDATE\n' +
+    'Allow: ACK, BYE, CANCEL, INFO, INVITE, NOTIFY, OPTIONS, REFER, UPDATE\n' +
     'Max-forwards: 69\n' +
     'User-agent: foobar\n' +
     'Supported: replaces\n' +
     'Content-Length: 0\n';
 
-  sip_socket.on('OK', function(data) {
+  sip_socket.on('200', function(data) {
     console.log(data);
   });
 
-  sip_socket.on('UNKNOWN', function (data) {
+  sip_socket.on('401', function (data) {
     console.log(data);
   });
 

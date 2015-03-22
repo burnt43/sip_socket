@@ -1,0 +1,23 @@
+{
+  "name": "sip_socket",
+  "version": "0.0.0",
+  "description": "for connecting to SIP servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/burnt43/sip_socket.git"
+  },
+  "keywords": [
+    "SIP",
+    "asterisk",
+    "VOIP"
+  ],
+  "author": "James Carson <jms.crsn@gmail.com> (https://github.com/burnt43)",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/burnt43/sip_socket/issues"
+  }
+}

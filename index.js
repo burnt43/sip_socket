@@ -8,10 +8,18 @@ function parse_sip_response (response) {
   response_hash = {};
   
   function parse_sip_header(line) {
-    if ( line.match(/OK/) ) {
-      return "OK";
+    if ( result = line.match(/^SIP\/2.0\s([0-9]+)/) ) {
+      return result[1];
     } else {
       return "UNKNOWN";
+    }
+  }
+
+  function parse_info (info) {
+    if ( (comma = info.indexOf(',')) >= 0 ) {
+      return new Array;
+    } else {
+      return info;
     }
   }
 
@@ -22,7 +30,7 @@ function parse_sip_response (response) {
     var info = line.substring(space+1);
 
     if ( name.slice(-1) == ':' ) {
-      response_hash[name.substring(0,name.length-1)] = info;
+      response_hash[name.substring(0,name.length-1)] = parse_info(info);
     } else if ( name.length > 0 ) {
       response_hash['MessageType'] = parse_sip_header(line);
       response_hash['Header'] = line;
