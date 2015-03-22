@@ -15,11 +15,23 @@ function parse_sip_response (response) {
     }
   }
 
-  function parse_info (info) {
-    if ( info.indexOf(',') >= 0 ) {
-      return info.split(',');
-    } else {
-      return info;
+  function parse_info (hash_key,info) {
+    switch (hash_key) {
+      case "WWW-Authenticate":
+        var hash = {};
+        info.split(',').forEach( function (key_value_pair) {
+          var split_pair = key_value_pair.trim().split('=');
+          hash[split_pair[0]] = split_pair[1].replace(/['"]/g,"");
+        });
+        return hash;
+        break;
+      case "Allow":
+        return info.split(',').map( function (allow_string) {
+          return allow_string.trim();
+        });
+        break;
+      default:
+        return info;
     }
   }
 
@@ -29,7 +41,8 @@ function parse_sip_response (response) {
     var info = line.substring(space+1);
 
     if ( name.slice(-1) == ':' ) {
-      response_hash[name.substring(0,name.length-1)] = parse_info(info);
+      hash_key = name.substring(0,name.length-1)
+      response_hash[hash_key] = parse_info(hash_key,info);
     } else if ( name.length > 0 ) {
       response_hash['MessageType'] = parse_sip_header(line);
       response_hash['Header'] = line;

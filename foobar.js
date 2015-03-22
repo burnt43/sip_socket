@@ -37,6 +37,10 @@ sip_socket.on('ready', function () {
     console.log(data);
   });
 
+  sip_socket.on('481', function(data) {
+    console.log("LOOP BS");
+  });
+
   //sip_socket.write(options_message);
   sip_socket.write(register_message);
 });
