@@ -2,6 +2,9 @@
   "name": "sip_socket",
   "version": "0.0.0",
   "description": "for connecting to SIP servers",
+  "dependencies": {
+    "string_ops": ">=0.0.2"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

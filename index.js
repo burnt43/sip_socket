@@ -1,11 +1,11 @@
 var dgram = require('dgram');
 var EventEmitter = require('events').EventEmitter;
+var string_ops = require('string_ops');
 var destination_host, destination_port, socket;
 var source_host, source_port;
 
 
 function parse_sip_response (response) {
-  response_hash = {};
   
   function parse_sip_header(line) {
     if ( result = line.match(/^SIP\/2.0\s([0-9]+)/) ) {
@@ -16,11 +16,7 @@ function parse_sip_response (response) {
   }
 
   function parse_info (info) {
-    if ( (comma = info.indexOf(',')) >= 0 ) {
-      return new Array;
-    } else {
-      return info;
-    }
+    return string_ops.split(info,',');
   }
 
   function parse_sip_line (line) {
@@ -34,18 +30,15 @@ function parse_sip_response (response) {
     } else if ( name.length > 0 ) {
       response_hash['MessageType'] = parse_sip_header(line);
       response_hash['Header'] = line;
-    } else {
-      module.exports.emit(response_hash['MessageType'],response_hash);
     }
   }
 
-  var remaining_string = response;
-  while ( remaining_string.length > 0 ) {
-    var newline = remaining_string.indexOf('\n');
-    var current_string = remaining_string.substring(0,newline);
-    remaining_string = remaining_string.substring(newline + 1);
-    parse_sip_line(current_string);
-  }
+  var response_by_line = string_ops.split(response,'\n');
+  var response_hash = {};
+  response_by_line.forEach( function (line) {
+    parse_sip_line(line);
+  });
+  module.exports.emit(response_hash['MessageType'],response_hash);
 }
 
 module.exports = new EventEmitter();
