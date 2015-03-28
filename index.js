@@ -59,6 +59,10 @@ function parse_sip_response (response) {
 
 module.exports = new EventEmitter();
 
+module.exports.close = function () {
+  socket.close();
+}
+
 module.exports.create = function (host,port,source_port) {
   destination_host = host;
   destination_port = port;
