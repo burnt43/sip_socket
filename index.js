@@ -79,6 +79,7 @@ module.exports.write = function (string) {
   var message = new Buffer(string);
   socket.on('message', function (data,info) {
     parse_sip_response(data.toString());
+    this.removeListener('message',arguments.callee);
   });
   socket.send(message, 0, message.length, destination_port, destination_host, function (err) {
     if ( err ) {
