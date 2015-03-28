@@ -1,9 +1,7 @@
 var dgram = require('dgram');
 var EventEmitter = require('events').EventEmitter;
-var string_ops = require('string_ops');
 var destination_host, destination_port, socket;
 var source_host, source_port;
-
 
 function parse_sip_response (response) {
   
