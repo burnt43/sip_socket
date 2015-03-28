@@ -59,12 +59,12 @@ function parse_sip_response (response) {
 
 module.exports = new EventEmitter();
 
-module.exports.create = function (host,port) {
+module.exports.create = function (host,port,source_port) {
   destination_host = host;
   destination_port = port;
 
   socket = dgram.createSocket('udp4');
-  socket.bind(null, 'localhost',  function () {
+  socket.bind(source_port, 'localhost',  function () {
     source_host = socket.address().address;
     source_port = socket.address().port;
     module.exports.destination_host = destination_host;
