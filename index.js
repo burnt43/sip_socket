@@ -60,7 +60,12 @@ function parse_sip_response (response) {
 module.exports = new EventEmitter();
 
 module.exports.close = function () {
+  this.removeAllListeners();
   socket.close();
+}
+
+module.exports.clear = function () {
+  this.removeAllListeners();
 }
 
 module.exports.create = function (host,port,source_port) {
@@ -73,6 +78,7 @@ module.exports.create = function (host,port,source_port) {
     source_port = socket.address().port;
     module.exports.destination_host = destination_host;
     module.exports.destination_port = destination_port;
+    
     module.exports.source_host = source_host;
     module.exports.source_port = source_port;
     module.exports.emit('ready');
