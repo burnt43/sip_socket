@@ -47,6 +47,8 @@ sip_socket.on('ready', function () {
       }
     }
 
+    var callid = generate_response() + "@" + sip_socket.source_host;
+
     function create_register_message (s_address, s_port, d_address, d_port, sip_user_name, password, nonce, response) {
         if ( !nonce ) { nonce = generate_nonce(); }
         if ( !response ) { response = generate_response() }
@@ -55,7 +57,7 @@ sip_socket.on('ready', function () {
         'Via: SIP/2.0/UDP ' + s_address + ':' + s_port + ';branch=z9hG4bK26534f84\n' +
         'From: "unknown" <sip:' + sip_user_name + '@' + d_address + '>;tag=3ceca9d67449aac6o0\n' +
         'To: "unknown" <sip:' + sip_user_name + '@' + d_address + '>\n' +
-        'Call-ID: da611025-55e45e25@' + s_address + '\n' +
+        'Call-ID: ' + callid + '\n' +
         'CSeq: 60591 REGISTER\n' +
         'Contact: "unknown" <sip:' + sip_user_name + '@' + s_address + '>;expires=300\n' +
         'Authorization: Digest username="' + sip_user_name + '", realm="asterisk", nonce="' + nonce + '", uri="sip:' + d_address + '", response="' + response + '", algorithm=MD5\n' +
@@ -82,6 +84,10 @@ sip_socket.on('ready', function () {
 
     sip_socket.on('403', function(data) {
       console.log(data);
+      setTimeout( function () {
+        sip_socket.clear();
+        register(user,pass);
+      }, 5000);
     });
 
     sip_socket.on('482', function(data) {
@@ -94,5 +100,5 @@ sip_socket.on('ready', function () {
 
   }
 
-  register("mrfoobar","slapboa");
+  register("mrfoobar","slapboat");
 });
