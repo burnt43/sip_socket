@@ -48,12 +48,12 @@ sip_socket.on('ready', function () {
     }
 
     function create_register_message (s_address, s_port, d_address, d_port, sip_user_name, password, nonce, response) {
-        if ( !nonce ) {nonce = generate_nonce();}
-        if ( !response ) {response = generate_response()}
+        if ( !nonce ) { nonce = generate_nonce(); }
+        if ( !response ) { response = generate_response() }
 
         return 'REGISTER sip:' + d_address + ' SIP/2.0\n' +
         'Via: SIP/2.0/UDP ' + s_address + ':' + s_port + ';branch=z9hG4bK26534f84\n' +
-        'From: "unknown" <sip:' + sip_user_name + '@' + d_address + '>;tag=3ceca9d67449aac6o0^\n' +
+        'From: "unknown" <sip:' + sip_user_name + '@' + d_address + '>;tag=3ceca9d67449aac6o0\n' +
         'To: "unknown" <sip:' + sip_user_name + '@' + d_address + '>\n' +
         'Call-ID: da611025-55e45e25@' + s_address + '\n' +
         'CSeq: 60591 REGISTER\n' +
@@ -94,5 +94,5 @@ sip_socket.on('ready', function () {
 
   }
 
-  register("mrfoobar","slapboat");
+  register("mrfoobar","slapboa");
 });
