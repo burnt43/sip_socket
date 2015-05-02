@@ -54,7 +54,13 @@ module.exports.parse = function (response) {
         var index_of_equal = clean_line.indexOf('=');
         var key            = clean_line.substring(0,index_of_equal);
         var value          = clean_line.substring(index_of_equal+1);
-        retval[key]        = value;
+        if ( !retval[key] ) {
+          retval[key] = value;
+        } else if ( typeof retval[key] == 'string' ) {
+          retval[key] = [retval[key],value];
+        } else {
+          retval[key].push(value);
+        }
       }
 
     });
