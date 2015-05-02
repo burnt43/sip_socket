@@ -1,8 +1,5 @@
 module.exports.parse = function (response) {
   
-  //console.log('------------------------------------------');
-  //console.log(response);
-
   function parse_sip_header(line) {
     if ( result = line.match(/^SIP\/2.0\s([0-9]+)/) ) {
       return result[1];
@@ -48,7 +45,20 @@ module.exports.parse = function (response) {
   }
 
   function parse_content ( content_string ) {
-    return {};
+    var retval = {};
+    content_string.split('\n').forEach( function (line) {
+
+      var clean_line = line.trim();
+
+      if ( clean_line != '' ) {
+        var index_of_equal = clean_line.indexOf('=');
+        var key            = clean_line.substring(0,index_of_equal);
+        var value          = clean_line.substring(index_of_equal+1);
+        retval[key]        = value;
+      }
+
+    });
+    return retval;
   }
 
   var response_hash    = {};
@@ -59,7 +69,6 @@ module.exports.parse = function (response) {
     var current_line     = remaining_string.substring(0,index_of_newline);
     var remaining_string = remaining_string.substring(index_of_newline+1);
 
-    //console.log('current_line(' + current_line.length + ',' + current_line.charCodeAt(0) + ') ' + current_line);
     if ( current_line == '\r' ) {
       response_hash['Content'] = parse_content(remaining_string);
       break;
